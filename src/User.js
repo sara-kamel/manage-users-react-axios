@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { Spinner } from 'react-bootstrap';
 
 
-export default function User({ user, onDeleteuser, onUpdateUser }) {
+export default function User({ user, onDeleteUser, onUpdateUser }) {
   const [isEdit, setIsEdit] = useState(false);
   const [editName, setEditName] = useState('');
   const [editEmail, setEditEmail] = useState('');
@@ -26,7 +26,7 @@ export default function User({ user, onDeleteuser, onUpdateUser }) {
     }
   };
 
-  const onEdituser = (user) => {
+  const onEditUser = (user) => {
     setIsEdit(true);
     setEditName(user.userName);
     setEditEmail(user.email);
@@ -65,8 +65,8 @@ export default function User({ user, onDeleteuser, onUpdateUser }) {
           <div key={user.id}>
             <h5>{user.userName}</h5>
             <p>{user.email}</p>
-            <button onClick={() => onDeleteuser(user.id)}>delete</button>
-            <button onClick={() => onEdituser(user)}>Edit</button>
+            <button onClick={() => onDeleteUser(user.id)}>delete</button>
+            <button onClick={() => onEditUser(user)}>Edit</button>
 
             <div>
               {loading ? (

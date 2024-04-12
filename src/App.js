@@ -1,22 +1,21 @@
-import { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-import User from './User';
-import { deleteUser, getUsers, addUser, updateUser } from './apiHelper';
+import { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+import User from "./User";
+import { deleteUser, getUsers, updateUser } from "./apiHelper";
+import AddUser from "./AddUser";
 
 function App() {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
-  const [userName, setUserName] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-
+  
   /*get users */
   useEffect(() => {
     const fetchUsers = async () => {
       const response = await getUsers();
       if (!response.error) {
         setUsers(response.data);
-        setError('');
+        setError("");
       } else setError(response.error);
     };
 
@@ -27,24 +26,12 @@ function App() {
   const handleDeleteUser = async (id) => {
     const response = await deleteUser(id);
     if (!response.error) {
-      alert('user deleted');
+      alert("user deleted");
       const currentUsers = users.filter((user) => user.id !== id);
       setUsers(currentUsers);
-      setError('');
+      setError("");
     } else setError(response.error);
   };
-
-  /*** Add User ***/
-  async function handleAddUser() {
-    const respone = await addUser(userName, userEmail);
-    if (!respone.error) {
-      setUsers([...users, respone.data]);
-      setUserName('');
-      setUserEmail('');
-    } else {
-      setError(respone.error);
-    }
-  }
 
   /**update users */
   async function handleUpdateUser(user, name, email) {
@@ -58,20 +45,14 @@ function App() {
 
   return (
     <>
-      <div>
-        <label>Add User</label>
-        <br />
-        <label>User Name</label>
-        <input value={userName} onChange={(e) => setUserName(e.target.value)} />
-        <br />
-        <label>User Email</label>
-        <input
-          value={userEmail}
-          onChange={(e) => setUserEmail(e.target.value)}
-        />
-      </div>
-      <button onClick={handleAddUser}>Submit</button>
-
+      <AddUser
+        onAdd={(data) => {
+          setUsers([...users, data]);
+        }}
+        onError={(error) => {
+          setError(error);
+        }}
+      />
       {users.map((user) => (
         <User
           key={user.id}
@@ -87,4 +68,3 @@ function App() {
 }
 
 export default App;
-
