@@ -1,92 +1,50 @@
-import {
-    Box,
-    Button,
-    FormControl,
-    FormErrorMessage,
-    FormLabel,
-    Heading,
-    Input,
-    VStack,
-  } from "@chakra-ui/react";
+import { useState } from "react";
 import { addUser } from "./apiHelper";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import { Form, Button } from "react-bootstrap";
 
-export default function AddUser({onAdd, onError}){
+export default function AddUser({ onAdd, onError }) {
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
 
+  async function handleAddUser() {
+    const respone = await addUser(userName, userEmail);
+    if (!respone.error) {
+      onAdd(respone.data);
+      setUserName("");
+      setUserEmail("");
+    } else {
+      onError(respone.error);
+    }
+  }
 
-    const formik = useFormik({
-        initialValues: {
-          name: "",
-          email: "",
-        },
-        onSubmit: async (values) => {
-          const respone = await addUser(values.name, values.email);
-          if (!respone.error) {
-            onAdd(respone.data)
-            // setUsers([...users, respone.data]);
-            formik.resetForm()
-          } else {
-            onError(respone.error)
-            // setError(respone.error);
-          }
-          alert(JSON.stringify(values, null, 2));
-        },
-        validationSchema: Yup.object({
-          name: Yup.string()
-            .min(2, "Too Short!")
-            .max(50, "Too Long!")
-            .required("Required"),
-          email: Yup.string().email("Invalid email").required("Required"),
-        }),
-      });
-
-    return(
-<>
-<Box>
-        <VStack w="1024px" p={32} alignItems="flex-start">
-          <Heading as="h1" id="contactme-section">
-            Add User
-          </Heading>
-          <Box p={6} rounded="md" w="100%">
-            <form onSubmit={formik.handleSubmit}>
-              <VStack spacing={4}>
-                <FormControl
-                  isInvalid={formik.touched.name && !!formik.errors.name}
-                >
-                  <FormLabel htmlFor="name">Name</FormLabel>
-                  <Input
-                    id="name"
-                    name="name"
-                    {...formik.getFieldProps("name")}
-                  />
-                  <FormErrorMessage>{formik.errors.name}</FormErrorMessage>
-                </FormControl>
-                <FormControl
-                  isInvalid={formik.touched.email && !!formik.errors.email}
-                >
-                  <FormLabel htmlFor="email">Email Address</FormLabel>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    {...formik.getFieldProps("email")}
-                  />
-                  <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
-                </FormControl>
-                <Button
-                  type="submit"
-                  colorScheme="purple"
-                  width="full"
-                  disabled={formik.isSubmitting}
-                >
-                  Submit
-                </Button>
-              </VStack>
-            </form>
-          </Box>
-        </VStack>
-      </Box>
-</>
-    )
+  return (
+    <>
+      <div className="add-form">
+        <Form>
+          <h3>Add User</h3>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label>User Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Name"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Label>User Email</Form.Label>
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              value={userEmail}
+              onChange={(e) => setUserEmail(e.target.value)}
+            />
+          </Form.Group>
+          <Button variant="outline-dark" onClick={handleAddUser}>
+            Submit
+          </Button>
+        </Form>
+      </div>
+    </>
+  );
 }

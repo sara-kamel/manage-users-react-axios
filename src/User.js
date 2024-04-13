@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
-import { getUserById } from './apiHelper';
-import Button from 'react-bootstrap/Button';
-import { Spinner } from 'react-bootstrap';
-
+import React, { useState } from "react";
+import { getUserById } from "./apiHelper";
+import { Modal, Button, Spinner, Card, Form } from "react-bootstrap";
 
 export default function User({ user, onDeleteUser, onUpdateUser }) {
   const [isEdit, setIsEdit] = useState(false);
-  const [editName, setEditName] = useState('');
-  const [editEmail, setEditEmail] = useState('');
-  const [error, setError] = useState('');
-  const [userData, setUserData] = useState('');
+  const [editName, setEditName] = useState("");
+  const [editEmail, setEditEmail] = useState("");
+  const [error, setError] = useState("");
+  const [userData, setUserData] = useState("");
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleShowMore = async () => {
     if (show) return;
@@ -35,68 +35,113 @@ export default function User({ user, onDeleteUser, onUpdateUser }) {
   const onSaveUpdateduser = (user) => {
     setIsEdit(false);
     onUpdateUser(user, editName, editEmail);
-    setEditName('');
-    setEditEmail('');
+    setEditName("");
+    setEditEmail("");
   };
   return (
     <>
-      <div className="card">
-        <p>{error}</p>
-        {isEdit ? (
-          <div>
-            <h5>{user.userName}</h5>
-            <p>{user.email}</p>
-            <label>user Name</label>
-            <input
-              value={editName}
-              onChange={(e) => setEditName(e.target.value)}
-            />
-            <br />
-            <label>user Email</label>
-            <input
-              value={editEmail}
-              onChange={(e) => setEditEmail(e.target.value)}
-            />
-            <br />
-            <button onClick={() => onSaveUpdateduser(user)}>Save</button>
-            <button onClick={() => setIsEdit(false)}>Cancel</button>
-          </div>
-        ) : (
-          <div key={user.id}>
-            <h5>{user.userName}</h5>
-            <p>{user.email}</p>
-            <button onClick={() => onDeleteUser(user.id)}>delete</button>
-            <button onClick={() => onEditUser(user)}>Edit</button>
+      <div className="container">
+        <div>
+          <Card key={user.id} style={{ width: "30rem" }}>
+            <Card.Body>
+              <Card.Title>{user.userName}</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">
+                {user.email}
+              </Card.Subtitle>
 
-            <div>
-              {loading ? (
-                <Spinner animation="border" role="status"></Spinner>
+              <br />
+              {isEdit ? (
+                <div>
+                  <Form>
+                    <Form.Group
+                      className="mb-3"
+                      controlId="exampleForm.ControlInput1"
+                    >
+                      <Form.Label>User Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Name"
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                      />
+                    </Form.Group>
+                    <Form.Group
+                      className="mb-3"
+                      controlId="exampleForm.ControlInput1"
+                    >
+                      <Form.Label>User Email</Form.Label>
+                      <Form.Control
+                        type="email"
+                        placeholder="Enter email"
+                        value={editEmail}
+                        onChange={(e) => setEditEmail(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Form>
+                  <Button
+                    variant="outline-info"
+                    onClick={() => onSaveUpdateduser(user)}
+                  >
+                    Save
+                  </Button>
+                  <Button
+                    variant="outline-info"
+                    onClick={() => setIsEdit(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
               ) : (
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    handleShowMore();
-                    setShow(!show);
-                 
-                  }}
-                >
-                  {show ? 'Show Less' : 'Show More'}
-                </Button>
+                <Card.Footer>
+                  <Button
+                    variant="outline-info"
+                    onClick={() => onDeleteUser(user.id)}
+                  >
+                    delete
+                  </Button>
+                  <Button
+                    variant="outline-info"
+                    onClick={() => onEditUser(user)}
+                  >
+                    Edit
+                  </Button>
+                  {loading ? (
+                    <Spinner animation="border" role="status"></Spinner>
+                  ) : (
+                    <Button
+                      variant="outline-info"
+                      onClick={() => {
+                        handleShowMore();
+                        setShow(!show);
+                        handleShow();
+                      }}
+                    >
+                      {show ? "Show Less" : "Show More"}
+                    </Button>
+                  )}
+                </Card.Footer>
               )}
-            </div>
+            </Card.Body>
+          </Card>
 
-            <p>
-              {show && (
-                <p>
-                  hello, {userData.userName} we will send navigations to this
-                  Email {userData.email} and some adds to your Address in{' '}
-                  {userData.address}
-                </p>
-              )}
-            </p>
-          </div>
-        )}
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title> {userData.userName}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              hello, <b>{userData.userName}</b> we will send navigations to this
+              Email <b>{userData.email}</b> and some adds to your Address in{" "}
+              <b>{userData.address}</b>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
       </div>
+      <p>{error}</p>
     </>
   );
 }

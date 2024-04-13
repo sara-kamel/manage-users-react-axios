@@ -45,6 +45,7 @@ function App() {
 
   return (
     <>
+  <header className="header"><h1>Users Management System </h1></header>
       <AddUser
         onAdd={(data) => {
           setUsers([...users, data]);
@@ -53,6 +54,7 @@ function App() {
           setError(error);
         }}
       />
+      <hr/>
       {users.map((user) => (
         <User
           key={user.id}
@@ -61,9 +63,9 @@ function App() {
           onUpdateUser={handleUpdateUser}
         />
       ))}
-
-      <b>{error}</b>
+      <p>{error}</p>
     </>
+   
   );
 }
 
