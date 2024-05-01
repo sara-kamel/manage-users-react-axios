@@ -45,10 +45,6 @@ export default function User({ user, onDeleteUser, onUpdateUser }) {
           <Card key={user.id}>
             <Card.Body>
               <Card.Title>{user.userName}</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">
-                {user.email}
-              </Card.Subtitle>
-
               <br />
               {isEdit ? (
                 <div>
@@ -129,9 +125,14 @@ export default function User({ user, onDeleteUser, onUpdateUser }) {
               <Modal.Title> {userData.userName}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              hello, <b>{userData.userName}</b> we will send navigations to this
-              Email <b>{userData.email}</b> and some adds to your Address in{" "}
-              <b>{userData.address}</b>
+              <ul>
+                <li>
+                  name: <b>{userData.userName}</b>
+                </li>
+                <li>
+                  Email: <b>{userData.email}</b>
+                </li>
+              </ul>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
