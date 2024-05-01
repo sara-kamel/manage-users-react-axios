@@ -19,18 +19,18 @@ This project is a user management interface built using React. It leverages Axio
 - **mockAPI.io**: Service used to create a simulated backend that supports CRUD operations.
 - **Bootstrap**: Responsive framework for building user interfaces with ready-to-use components.
 
- <!-- ## Screenshots:
-![](URL_to_image "Optional Title")
-![Alt Text](URL_to_image "Optional Title")
-![Alt Text](URL_to_image "Optional Title")
-![Alt Text](URL_to_image "Optional Title") -->
+ ## Screenshots:
+
+![Main page]( https://raw.githubusercontent.com/sara-kamel/manage-users-react-axios/main/src/assets/addUser.png )
+![Update User](https://raw.githubusercontent.com/sara-kamel/manage-users-react-axios/main/src/assets/updateUser.png "update User")
+![Show More](https://raw.githubusercontent.com/sara-kamel/manage-users-react-axios/main/src/assets/showMore.png "Show More")
+![On Mobile](https://raw.githubusercontent.com/sara-kamel/manage-users-react-axios/main/src/assets/onMobile.png "On Mobile")
 
 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-## How to run application 
 * Clone this repository
 * Navigate to the root direcotry and run `npm install`
 * Run the application by running `npm start`
