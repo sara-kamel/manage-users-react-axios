@@ -40,9 +40,9 @@ export default function User({ user, onDeleteUser, onUpdateUser }) {
   };
   return (
     <>
-      <div className="container">
+      <div className="user">
         <div>
-          <Card key={user.id} style={{ width: "30rem" }}>
+          <Card key={user.id}>
             <Card.Body>
               <Card.Title>{user.userName}</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
