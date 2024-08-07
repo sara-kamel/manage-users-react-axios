@@ -7,13 +7,13 @@ export default function AddUser({ onAdd, onError }) {
   const [userEmail, setUserEmail] = useState("");
 
   async function handleAddUser() {
-    const respone = await addUser(userName, userEmail);
-    if (!respone.error) {
-      onAdd(respone.data);
+    const response = await addUser(userName, userEmail);
+    if (!response.error) {
+      onAdd(response.data);
       setUserName("");
       setUserEmail("");
     } else {
-      onError(respone.error);
+      onError(response.error);
     }
   }
 

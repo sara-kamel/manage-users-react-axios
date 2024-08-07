@@ -35,11 +35,11 @@ function App() {
 
   /**update users */
   async function handleUpdateUser(user, name, email) {
-    const respone = await updateUser(user, name, email);
-    if (!respone.error) {
-      setUsers(users.map((u) => (u.id === user.id ? { ...respone.data } : u)));
+    const response = await updateUser(user, name, email);
+    if (!response.error) {
+      setUsers(users.map((u) => (u.id === user.id ? { ...response.data } : u)));
     } else {
-      setError(respone.error);
+      setError(response.error);
     }
   }
 
